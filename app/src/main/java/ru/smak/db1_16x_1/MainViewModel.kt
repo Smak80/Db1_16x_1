@@ -5,8 +5,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import ru.smak.db1_16x_1.database.DbHelper
 import ru.smak.db1_16x_1.database.StdGroup
+import ru.smak.db1_16x_1.database.Student
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -15,7 +16,25 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var groups by mutableStateOf(listOf<StdGroup>())
         private set
 
+    var students by mutableStateOf(listOf<Student>())
+        private set
+
+    var newStud by mutableStateOf("")
+    var selectedGroup by mutableStateOf<StdGroup?>(null)
+
     init{
         groups = dbHelper.getAllGroups()
+    }
+
+    fun addStudent() {
+        selectedGroup?.let {
+            dbHelper.addStudent(newStud, it.groupName)
+            students = dbHelper.getStudentsByGroup(it.groupName)
+        }
+    }
+
+    fun selectGroup(group: StdGroup) {
+        selectedGroup = group
+        students = dbHelper.getStudentsByGroup(group.groupName)
     }
 }

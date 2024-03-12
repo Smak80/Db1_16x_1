@@ -1,11 +1,10 @@
-package ru.smak.db1_16x_1
+package ru.smak.db1_16x_1.database
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import ru.smak.db1_16x_1.database.StdGroup
 
 class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
     companion object{
@@ -114,12 +113,52 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
         }
     }
 
+    fun getStudentsByGroup(groupName: String): List<Student> {
+        val students = mutableListOf<Student>()
+        val groupId = getGroupId(groupName)
+        with (readableDatabase) {
+            beginTransaction()
+            try {
+                query(
+                    TBL_STUD,
+                    arrayOf("id", "fullname", "group_id"),
+                    "group_id = ?",
+                    arrayOf(groupId.toString()),
+                    null,
+                    null,
+                    null
+                ).apply {
+                    while (moveToNext()) {
+                        students.add(
+                            Student(
+                            getLong(0),
+                            getString(1),
+                            getLong(2)
+                        )
+                        )
+                    }
+                    close()
+                }
+                setTransactionSuccessful()
+                return students
+            }
+            catch (_: Throwable) {
+                students.clear()
+                return students
+            }
+            finally {
+                endTransaction()
+            }
+        }
+    }
+
     fun getAllGroups(): List<StdGroup> {
         val groups = mutableListOf<StdGroup>()
         with (readableDatabase){
             beginTransaction()
             try{
-                query(TBL_GROUP,
+                query(
+                    TBL_GROUP,
                     arrayOf("id", "group_name", "direction"),
                     null,
                     null,
