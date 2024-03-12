@@ -5,13 +5,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import ru.smak.db1_16x_1.database.DbHelper
-import ru.smak.db1_16x_1.database.StdGroup
-import ru.smak.db1_16x_1.database.Student
+import androidx.room.Room
+import ru.smak.db1_16x_1.room.StdGroup
+import ru.smak.db1_16x_1.room.Student
+import ru.smak.db1_16x_1.room.StudentsDatabase
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val dbHelper = DbHelper(getApplication())
+    //private val dbHelper = DbHelper(getApplication())
+
+    private val groupsDao by lazy{
+        Room
+            .databaseBuilder(getApplication(), StudentsDatabase::class.java, "STUD_DB")
+            .build()
+            .getStdGroupDao()
+    }
 
     var groups by mutableStateOf(listOf<StdGroup>())
         private set
@@ -23,18 +31,25 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var selectedGroup by mutableStateOf<StdGroup?>(null)
 
     init{
-        groups = dbHelper.getAllGroups()
+        //groups = dbHelper.getAllGroups()
+        groupsDao.addGroup(StdGroup(groupName = "09-161", direction = "Информационные системы и технологии"))
+        groupsDao.addGroup(StdGroup(groupName = "09-162", direction = "Информационные системы и технологии"))
+        groupsDao.addGroup(StdGroup(groupName = "09-163", direction = "Информационные системы и технологии"))
+        groupsDao.addGroup(StdGroup(groupName = "09-111", direction = "Прикладная математика и информатика"))
+        groups = groupsDao.getAllGroups()
     }
 
     fun addStudent() {
-        selectedGroup?.let {
+        /*selectedGroup?.let {
             dbHelper.addStudent(newStud, it.groupName)
             students = dbHelper.getStudentsByGroup(it.groupName)
-        }
+        }*/
     }
 
     fun selectGroup(group: StdGroup) {
+        /*
         selectedGroup = group
         students = dbHelper.getStudentsByGroup(group.groupName)
+        */
     }
 }

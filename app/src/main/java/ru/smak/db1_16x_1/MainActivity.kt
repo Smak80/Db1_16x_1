@@ -32,8 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.smak.db1_16x_1.database.StdGroup
-import ru.smak.db1_16x_1.database.Student
+import ru.smak.db1_16x_1.room.StdGroup
+import ru.smak.db1_16x_1.room.Student
 import ru.smak.db1_16x_1.ui.theme.Db1_16x_1Theme
 
 class MainActivity : ComponentActivity() {
