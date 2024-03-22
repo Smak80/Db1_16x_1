@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
+class DbHelper(context: Context) :
+    SQLiteOpenHelper(context, DB_NAME, null, 1) {
     companion object{
         const val DB_NAME = "STUDENTS_DB"
         const val TBL_STUD = "STUD"
@@ -48,7 +49,9 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
         }
     }
 
-    fun addGroup(groupName: String, direction: String, database: SQLiteDatabase? = null){
+    fun addGroup(groupName: String,
+                 direction: String,
+                 database: SQLiteDatabase? = null){
         with(database ?: writableDatabase){
             beginTransaction()
             val values = ContentValues()
@@ -106,7 +109,6 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, 1) {
                 insert(TBL_STUD, "", values)
                 setTransactionSuccessful()
             } catch (_: Throwable){
-
             } finally {
                 endTransaction()
             }
