@@ -4,18 +4,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StdGroupDao {
     @Insert(StdGroup::class)
-    fun addGroup(group: StdGroup)
+    suspend fun addGroup(group: StdGroup)
 
     @Delete(StdGroup::class)
-    fun deleteGroup(group: StdGroup)
+    suspend fun deleteGroup(group: StdGroup)
 
     @Query("SELECT * FROM std_group WHERE group_name = :name")
-    fun getGroupByName(name: String): StdGroup
+    fun getGroupByName(name: String): Flow<StdGroup>
 
     @Query("SELECT * FROM std_group")
-    fun getAllGroups(): List<StdGroup>
+    fun getAllGroups(): Flow<List<StdGroup>>
 }

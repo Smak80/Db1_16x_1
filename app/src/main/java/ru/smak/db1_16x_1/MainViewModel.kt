@@ -5,7 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import ru.smak.db1_16x_1.room.StdGroup
 import ru.smak.db1_16x_1.room.Student
 import ru.smak.db1_16x_1.room.StudentsDatabase
@@ -32,11 +35,39 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     init{
         //groups = dbHelper.getAllGroups()
-        groupsDao.addGroup(StdGroup(groupName = "09-161", direction = "Информационные системы и технологии"))
-        groupsDao.addGroup(StdGroup(groupName = "09-162", direction = "Информационные системы и технологии"))
-        groupsDao.addGroup(StdGroup(groupName = "09-163", direction = "Информационные системы и технологии"))
-        groupsDao.addGroup(StdGroup(groupName = "09-111", direction = "Прикладная математика и информатика"))
-        groups = groupsDao.getAllGroups()
+        viewModelScope.launch {
+            groupsDao.addGroup(
+                StdGroup(
+                    groupName = "09-161",
+                    direction = "Информационные системы и технологии"
+                )
+            )
+            groupsDao.addGroup(
+                StdGroup(
+                    groupName = "09-162",
+                    direction = "Информационные системы и технологии"
+                )
+            )
+            groupsDao.addGroup(
+                StdGroup(
+                    groupName = "09-163",
+                    direction = "Информационные системы и технологии"
+                )
+            )
+            groupsDao.addGroup(
+                StdGroup(
+                    groupName = "09-111",
+                    direction = "Прикладная математика и информатика"
+                )
+            )
+        }
+
+        viewModelScope.launch {
+            groupsDao.getAllGroups().collect {
+                groups = it
+            }
+        }
+
     }
 
     fun addStudent() {
