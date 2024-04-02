@@ -10,4 +10,5 @@ import androidx.room.RoomDatabase
 )
 abstract class StudentsDatabase : RoomDatabase(){
     abstract fun getStdGroupDao(): StdGroupDao
+    abstract fun getStudentDao(): StudentDao
 }
