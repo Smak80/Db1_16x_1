@@ -36,30 +36,36 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     init{
         //groups = dbHelper.getAllGroups()
         viewModelScope.launch {
-            groupsDao.addGroup(
-                StdGroup(
-                    groupName = "09-161",
-                    direction = "Информационные системы и технологии"
+            try {
+                groupsDao.addGroup(
+                    StdGroup(
+                        id = 1,
+                        groupName = "09-161",
+                        direction = "Информационные системы и технологии"
+                    )
                 )
-            )
-            groupsDao.addGroup(
-                StdGroup(
-                    groupName = "09-162",
-                    direction = "Информационные системы и технологии"
+                groupsDao.addGroup(
+                    StdGroup(
+                        id = 2,
+                        groupName = "09-162",
+                        direction = "Информационные системы и технологии"
+                    )
                 )
-            )
-            groupsDao.addGroup(
-                StdGroup(
-                    groupName = "09-163",
-                    direction = "Информационные системы и технологии"
+                groupsDao.addGroup(
+                    StdGroup(
+                        id = 3,
+                        groupName = "09-163",
+                        direction = "Информационные системы и технологии"
+                    )
                 )
-            )
-            groupsDao.addGroup(
-                StdGroup(
-                    groupName = "09-111",
-                    direction = "Прикладная математика и информатика"
+                groupsDao.addGroup(
+                    StdGroup(
+                        id = 4,
+                        groupName = "09-111",
+                        direction = "Прикладная математика и информатика"
+                    )
                 )
-            )
+            } catch (_: Throwable){}
         }
 
         viewModelScope.launch {
