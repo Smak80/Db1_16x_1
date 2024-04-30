@@ -27,6 +27,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -45,12 +47,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             Db1_16x_1Theme {
                 // A surface container using the 'background' color from the theme
+                val groups by mvm.groupsFlow.collectAsState(initial = listOf())
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainUI(
-                        mvm.groups,
+                        groups,
                         mvm.newStud,
                         mvm.students,
                         Modifier.fillMaxSize(),
@@ -89,7 +92,9 @@ fun MainUI(
                 OutlinedTextField(
                     value = newStud,
                     onValueChange = onNewStudChange,
-                    modifier = Modifier.weight(1f).padding(8.dp, 0.dp)
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(8.dp, 0.dp)
                 )
                 Button(
                     onClick = onAddStudent,

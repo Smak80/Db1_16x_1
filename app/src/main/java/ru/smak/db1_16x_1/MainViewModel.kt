@@ -38,13 +38,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     /**
      * Список студенческих групп, отображаемый в активности
      */
-    var groups by mutableStateOf(listOf<StdGroup>())
-        private set
+    //var groups by mutableStateOf(listOf<StdGroup>())
+    //    private set
+    val groupsFlow = groupsDao.getAllGroups()
 
     /**
      * Список студентов, отображаемый в активности
      */
     var students by mutableStateOf(listOf<Student>())
+        private set
 
     /**
      * Имя нового студента, введенное пользователем приложения
@@ -122,11 +124,11 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         }
 
         // Запуск процесса получения списка групп
-        viewModelScope.launch {
+        /*viewModelScope.launch {
             groupsDao.getAllGroups().collect {
                 groups = it
             }
-        }
+        }*/
 
     }
 
